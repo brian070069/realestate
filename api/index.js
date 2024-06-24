@@ -1,10 +1,13 @@
 const express = require("express");
 const { connectDb } = require("./database");
+const { router: UserRouter } = require("./routes/user.routes");
 const dotenv = require("dotenv");
-dotenv.config();
 
+dotenv.config();
 const mongoConnectionUrl = process.env.MONGOURL;
 const app = express();
+
+app.use("/api/user", UserRouter);
 
 const startServer = async () => {
   try {
