@@ -17,6 +17,18 @@ app.use(express.json());
 app.use("/api/user", UserRouter);
 app.use("/api/auth", AuthRouter);
 
+//global error handling middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal server error";
+
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
+
 const startServer = async () => {
   try {
     await connectDb(mongoConnectionUrl);
